@@ -7,7 +7,7 @@ hail_context <- function(spark_version = "2.4.0"){
   
   sparklyr::invoke_static(sc, "is.hail.HailContext", "getOrCreate",
                           spark_context(sc), "Hail",
-                          invoke_static(sc, "sparkhail.CreateOption", "stringNone"),
+                          create_option_string(sc, "none"),
                           sc$master, "hail.log", FALSE, FALSE, 1, 50L, "/tmp", 3L )
   
 }

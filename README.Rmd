@@ -1,33 +1,36 @@
 ---
-title: "What the Package Does (Title Case)"
+title: "A sparklyr extension for Hail"
 output:
   github_document:
     fig_width: 9
     fig_height: 5
 ---
 
-## Building
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-First build this package, then build its jars by running:
+## Installation
 
 ```{r eval=FALSE}
-sparklyr::compile_package_jars()
+install.packages("devtools")
+devtools::install_github("samuelmacedo83/sparkhail")
 ```
 
-then build the R package as usual.
-
-## Getting Started
-
-Connect and test this package as follows:
+## Read a matrix table
 
 ```{r}
-library(hailr.test)
-library(sparklyr)
-sc <- spark_connect(master = "local")
-
-hailr.test_hello(sc)
+library(sparkhail)
+hl <- hail_context()
+mt <- read_matrix_table(hl, "inst/data/1kg.mt")
 ```
+
+## Describe
+
+You can take the information about the matrix table separately using `mt_globals_fields()`, `mt_col_fields()`, `mt_row_fields()`, `mt_entry_fields()`, `mt_col_key()` and `mt_row_key()`.
+Or you can use `describe()`. 
 
 ```{r}
-spark_disconnect_all()
+describe(mt)
 ```
+
