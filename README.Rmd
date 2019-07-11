@@ -34,9 +34,29 @@ Or you can use `describe()`.
 hail_describe(mt)
 ```
 
+## Data Frame
+
+Convert to Data Frame as follows,
+
+```{r}
+rdd <- mt %>% invoke("rvd") %>% invoke("toRows") %>% invoke_static(sc, "sparkhail.HailConverter", "mtToRdd", .)
+
+fields <- lapply(1:6, function(x) invoke_static(sc, 
+                                                "sparklyr.SQLUtils", 
+                                                "createStructField", 
+                                                paste0("F", x), 
+                                                "character", 
+                                                TRUE))
+
+schema <- invoke_static(sc, "sparklyr.SQLUtils", "createStructType", fields)
+
+invoke(hive_context(sc), "createDataFrame", rdd, schema) %>% sparklyr::sdf_register()
+```
+
+## Cleanup
+
 Then disconenct from Spark and Hail,
 
 ```{r}
 spark_disconnect(sc)
 ```
-
