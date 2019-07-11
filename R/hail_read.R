@@ -1,5 +1,5 @@
 #' @export
-read_matrix_table <- function(hl, path){
+hail_read_matrix <- function(hl, path){
   
   mt <- sparklyr::invoke_static(sparklyr::spark_connection(hl), "is.hail.variant.MatrixTable", "read",
                          hl, path, FALSE, FALSE)
