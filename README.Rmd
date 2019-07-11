@@ -6,10 +6,6 @@ output:
     fig_height: 5
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Installation
 
 ```{r eval=FALSE}
@@ -21,8 +17,12 @@ devtools::install_github("samuelmacedo83/sparkhail")
 
 ```{r}
 library(sparkhail)
-hl <- hail_context()
-mt <- read_matrix_table(hl, "inst/data/1kg.mt")
+library(sparklyr)
+
+sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
+
+hl <- hail_context(sc)
+mt <- read_matrix_table(hl, system.file("data/1kg.mt", package = "sparkhail"))
 ```
 
 ## Describe
@@ -32,5 +32,11 @@ Or you can use `describe()`.
 
 ```{r}
 describe(mt)
+```
+
+Then disconenct from Spark and Hail,
+
+```{r}
+spark_disconnect(sc)
 ```
 
