@@ -22,7 +22,7 @@ library(sparklyr)
 sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
 
 hl <- hail_context(sc)
-mt <- read_matrix_table(hl, system.file("data/1kg.mt", package = "sparkhail"))
+mt <- hail_read_matrix(hl, system.file("data/1kg.mt", package = "sparkhail"))
 ```
 
 ## Describe
@@ -31,7 +31,7 @@ You can take the information about the matrix table separately using `mt_globals
 Or you can use `describe()`. 
 
 ```{r}
-describe(mt)
+hail_describe(mt)
 ```
 
 Then disconenct from Spark and Hail,
