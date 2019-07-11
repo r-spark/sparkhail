@@ -12,8 +12,12 @@ devtools::install_github("samuelmacedo83/sparkhail")
 
 ``` r
 library(sparkhail)
-hl <- hail_context()
-mt <- read_matrix_table(hl, "inst/data/1kg.mt")
+library(sparklyr)
+
+sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
+
+hl <- hail_context(sc)
+mt <- hail_read_matrix(hl, system.file("data/1kg.mt", package = "sparkhail"))
 ```
 
 ## Describe
@@ -24,7 +28,7 @@ You can take the information about the matrix table separately using
 `describe()`.
 
 ``` r
-describe(mt)
+hail_describe(mt)
 ```
 
     ##  Global Fields: 
@@ -64,3 +68,48 @@ describe(mt)
     ##      PL:Array[+Int32]
     ##  Column Key: s 
     ##  Row Key: locus  alleles
+
+## Data Frame
+
+Convert to Data Frame as
+follows,
+
+``` r
+rdd <- mt %>% invoke("rvd") %>% invoke("toRows") %>% invoke_static(sc, "sparkhail.HailConverter", "mtToRdd", .)
+
+fields <- lapply(1:6, function(x) invoke_static(sc, 
+                                                "sparklyr.SQLUtils", 
+                                                "createStructField", 
+                                                paste0("F", x), 
+                                                "character", 
+                                                TRUE))
+
+schema <- invoke_static(sc, "sparklyr.SQLUtils", "createStructType", fields)
+
+invoke(hive_context(sc), "createDataFrame", rdd, schema) %>% sparklyr::sdf_register()
+```
+
+    ## # Source: spark<?> [?? x 6]
+    ##    F1        F2       F3       F4       F5       F6      
+    ##    <chr>     <chr>    <chr>    <chr>    <chr>    <chr>   
+    ##  1 1:904165  x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  2 1:909917  x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  3 1:986963  x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  4 1:1563691 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  5 1:1707740 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  6 1:2252970 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  7 1:2284195 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  8 1:2779043 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ##  9 1:2944527 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ## 10 1:3761547 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ## # … with more rows
+
+## Cleanup
+
+Then disconenct from Spark and Hail,
+
+``` r
+spark_disconnect(sc)
+```
+
+    ## NULL
