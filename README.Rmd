@@ -6,10 +6,6 @@ output:
     fig_height: 5
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Installation
 
 ```{r eval=FALSE}
@@ -21,8 +17,12 @@ devtools::install_github("samuelmacedo83/sparkhail")
 
 ```{r}
 library(sparkhail)
-hl <- hail_context()
-mt <- read_matrix_table(hl, "inst/data/1kg.mt")
+library(sparklyr)
+
+sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
+
+hl <- hail_context(sc)
+mt <- hail_read_matrix(hl, system.file("data/1kg.mt", package = "sparkhail"))
 ```
 
 ## Describe
@@ -31,6 +31,32 @@ You can take the information about the matrix table separately using `mt_globals
 Or you can use `describe()`. 
 
 ```{r}
-describe(mt)
+hail_describe(mt)
 ```
 
+## Data Frame
+
+Convert to Data Frame as follows,
+
+```{r}
+rdd <- mt %>% invoke("rvd") %>% invoke("toRows") %>% invoke_static(sc, "sparkhail.HailConverter", "mtToRdd", .)
+
+fields <- lapply(1:6, function(x) invoke_static(sc, 
+                                                "sparklyr.SQLUtils", 
+                                                "createStructField", 
+                                                paste0("F", x), 
+                                                "character", 
+                                                TRUE))
+
+schema <- invoke_static(sc, "sparklyr.SQLUtils", "createStructType", fields)
+
+invoke(hive_context(sc), "createDataFrame", rdd, schema) %>% sparklyr::sdf_register()
+```
+
+## Cleanup
+
+Then disconenct from Spark and Hail,
+
+```{r}
+spark_disconnect(sc)
+```

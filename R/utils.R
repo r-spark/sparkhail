@@ -9,8 +9,6 @@ get_methods <- function(jobj){
   
 }
 
-
-
 #' @importFrom sparklyr %>% invoke
 #' @export
 mt_cols <- function(jobj){
@@ -22,4 +20,3 @@ mt_cols <- function(jobj){
 mt_rows <- function(jobj){
   invoke(jobj, "countRows")
 }
-

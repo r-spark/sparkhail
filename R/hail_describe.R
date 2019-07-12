@@ -6,7 +6,7 @@
 #' @examples
 #' 
 #' @export
-describe <- function(jobj){
+hail_describe <- function(jobj){
   cat(" Global Fields:", "\n",
       paste0("    ", mt_globals_fields(jobj), "\n"),
       "Column Fields:", "\n",
