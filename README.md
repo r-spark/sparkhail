@@ -71,37 +71,25 @@ hail_describe(mt)
 
 ## Data Frame
 
-Convert to Data Frame as
-follows,
+Convert to Data Frame as follows,
 
 ``` r
-rdd <- mt %>% invoke("rvd") %>% invoke("toRows") %>% invoke_static(sc, "sparkhail.HailConverter", "mtToRdd", .)
-
-fields <- lapply(1:6, function(x) invoke_static(sc, 
-                                                "sparklyr.SQLUtils", 
-                                                "createStructField", 
-                                                paste0("F", x), 
-                                                "character", 
-                                                TRUE))
-
-schema <- invoke_static(sc, "sparklyr.SQLUtils", "createStructType", fields)
-
-invoke(hive_context(sc), "createDataFrame", rdd, schema) %>% sparklyr::sdf_register()
+hail_dataframe(mt)
 ```
 
-    ## # Source: spark<?> [?? x 6]
-    ##    F1        F2       F3       F4       F5       F6      
-    ##    <chr>     <chr>    <chr>    <chr>    <chr>    <chr>   
-    ##  1 1:904165  x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  2 1:909917  x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  3 1:986963  x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  4 1:1563691 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  5 1:1707740 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  6 1:2252970 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  7 1:2284195 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  8 1:2779043 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ##  9 1:2944527 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
-    ## 10 1:3761547 x.get(1) x.get(2) x.get(3) x.get(4) x.get(5)
+    ## # Source: spark<?> [?? x 7]
+    ##    locus     alleles    rsid     qual filter    info        entries     
+    ##    <chr>     <list>     <chr>   <dbl> <list>    <list>      <list>      
+    ##  1 1:904165  <list [2]> <NA>   52346. <lgl [1]> <list [18]> <list [284]>
+    ##  2 1:909917  <list [2]> <NA>    1577. <lgl [1]> <list [18]> <list [284]>
+    ##  3 1:986963  <list [2]> <NA>     398. <lgl [1]> <list [18]> <list [284]>
+    ##  4 1:1563691 <list [2]> <NA>    1091. <lgl [1]> <list [18]> <list [284]>
+    ##  5 1:1707740 <list [2]> <NA>   93518. <lgl [1]> <list [18]> <list [284]>
+    ##  6 1:2252970 <list [2]> <NA>     736. <lgl [1]> <list [18]> <list [284]>
+    ##  7 1:2284195 <list [2]> <NA>  142481. <lgl [1]> <list [18]> <list [284]>
+    ##  8 1:2779043 <list [2]> <NA>  288792. <lgl [1]> <list [18]> <list [284]>
+    ##  9 1:2944527 <list [2]> <NA>  124329. <lgl [1]> <list [18]> <list [284]>
+    ## 10 1:3761547 <list [2]> <NA>    1615. <lgl [1]> <list [18]> <list [284]>
     ## # … with more rows
 
 ## Cleanup

@@ -39,18 +39,7 @@ hail_describe(mt)
 Convert to Data Frame as follows,
 
 ```{r}
-rdd <- mt %>% invoke("rvd") %>% invoke("toRows") %>% invoke_static(sc, "sparkhail.HailConverter", "mtToRdd", .)
-
-fields <- lapply(1:6, function(x) invoke_static(sc, 
-                                                "sparklyr.SQLUtils", 
-                                                "createStructField", 
-                                                paste0("F", x), 
-                                                "character", 
-                                                TRUE))
-
-schema <- invoke_static(sc, "sparklyr.SQLUtils", "createStructType", fields)
-
-invoke(hive_context(sc), "createDataFrame", rdd, schema) %>% sparklyr::sdf_register()
+hail_dataframe(mt)
 ```
 
 ## Cleanup
