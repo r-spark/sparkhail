@@ -3,6 +3,7 @@ package sparkhail
 import org.apache.spark.rdd._
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.expressions._
+import org.apache.spark.sql.types._
 
 object CreateOption {
   def stringNone() : Option[String] = None
@@ -12,6 +13,21 @@ object CreateOption {
 
 object HailConverter {
   def mtToRdd(rdd: RDD[GenericRow]) : RDD[Row] = {
-    return rdd.map(x => Row(x.get(0).toString, "x.get(1)", "x.get(2)", "x.get(3)", "x.get(4)", "x.get(5)"))
+    return rdd.map(x => Row(x.get(0).toString, x.get(1), x.get(2), x.get(3), x.get(4), 
+                            x.get(5), x.get(6)))
+  }
+  
+  def entriesStruct() : StructField = {
+    val struct = StructType(Array(
+        StructField("Call", IntegerType, true),
+        StructField("AD", ArrayType(IntegerType), true),
+        StructField("DP", IntegerType, true),
+        StructField("GQ", IntegerType, true),
+        StructField("PL", ArrayType(IntegerType), true)
+    ))
+    
+    StructField("entries", ArrayType(struct), true)
   }
 }
+
+
