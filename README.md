@@ -100,20 +100,7 @@ manipulate our data using `select`, `filter`, `group_by` and so on.
 
 ``` r
 library(dplyr)
-```
 
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 df %>% 
   sdf_separate_column("alleles") %>% 
   filter(alleles_1 %in% c("G", "T")) %>% 
@@ -140,7 +127,8 @@ You can access nested data using the `sparklyr.nested` package.
 ``` r
 library(sparklyr.nested)
 
-df %>% sdf_select(locus,alleles, DP = info.DP)
+df %>% 
+  sdf_select(locus,alleles, DP = info.DP)
 ```
 
     ## Warning in sdf_select(., locus, alleles, DP = info.DP): Variable name

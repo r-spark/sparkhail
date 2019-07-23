@@ -47,7 +47,7 @@ df
 
 Now that we convert a matrix table in a spark dataframe, we can manipulate our data using `select`, `filter`, `group_by` and so on.
 
-```{r}
+```{r message=FALSE}
 library(dplyr)
 
 df %>% 
