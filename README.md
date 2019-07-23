@@ -71,10 +71,11 @@ hail_describe(mt)
 
 ## Data Frame
 
-Convert to Data Frame as follows,
+Convert to spark Data Frame as follows
 
 ``` r
-hail_dataframe(mt)
+df <- hail_dataframe(mt)
+df
 ```
 
     ## # Source: spark<?> [?? x 7]
@@ -90,6 +91,74 @@ hail_dataframe(mt)
     ##  8 1:2779043 <list [2]> <NA>  288792. <lgl [1]> <list [18]> <list [284]>
     ##  9 1:2944527 <list [2]> <NA>  124329. <lgl [1]> <list [18]> <list [284]>
     ## 10 1:3761547 <list [2]> <NA>    1615. <lgl [1]> <list [18]> <list [284]>
+    ## # … with more rows
+
+## Data Frame manipulation
+
+Now that we convert a matrix table in a spark dataframe, we can
+manipulate our data using `select`, `filter`, `group_by` and so on.
+
+``` r
+library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
+df %>% 
+  sdf_separate_column("alleles") %>% 
+  filter(alleles_1 %in% c("G", "T")) %>% 
+  select(locus, alleles_1, alleles_2, qual, entries)
+```
+
+    ## # Source: spark<?> [?? x 5]
+    ##    locus     alleles_1 alleles_2    qual entries     
+    ##    <chr>     <chr>     <chr>       <dbl> <list>      
+    ##  1 1:904165  G         A          52346. <list [284]>
+    ##  2 1:909917  G         A           1577. <list [284]>
+    ##  3 1:1563691 T         G           1091. <list [284]>
+    ##  4 1:1707740 T         G          93518. <list [284]>
+    ##  5 1:2284195 T         C         142481. <list [284]>
+    ##  6 1:2779043 T         C         288792. <list [284]>
+    ##  7 1:2944527 G         A         124329. <list [284]>
+    ##  8 1:3803755 T         C         383549. <list [284]>
+    ##  9 1:6053630 T         G         185080. <list [284]>
+    ## 10 1:6279383 G         C           1269. <list [284]>
+    ## # … with more rows
+
+You can access nested data using the `sparklyr.nested` package.
+
+``` r
+library(sparklyr.nested)
+
+df %>% sdf_select(locus,alleles, DP = info.DP)
+```
+
+    ## Warning in sdf_select(., locus, alleles, DP = info.DP): Variable name
+    ## conflict detected, using disambuigated names for all nested fields
+
+    ## # Source: spark<?> [?? x 3]
+    ##    locus     alleles       DP
+    ##    <chr>     <list>     <int>
+    ##  1 1:904165  <list [2]> 17827
+    ##  2 1:909917  <list [2]> 14671
+    ##  3 1:986963  <list [2]> 12398
+    ##  4 1:1563691 <list [2]> 15357
+    ##  5 1:1707740 <list [2]> 19902
+    ##  6 1:2252970 <list [2]> 14900
+    ##  7 1:2284195 <list [2]> 18176
+    ##  8 1:2779043 <list [2]> 12878
+    ##  9 1:2944527 <list [2]> 17698
+    ## 10 1:3761547 <list [2]> 16845
     ## # … with more rows
 
 ## Cleanup

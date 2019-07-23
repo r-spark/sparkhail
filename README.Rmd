@@ -15,7 +15,7 @@ devtools::install_github("samuelmacedo83/sparkhail")
 
 ## Read a matrix table
 
-```{r}
+```{r read_matrix}
 library(sparkhail)
 library(sparklyr)
 
@@ -36,10 +36,34 @@ hail_describe(mt)
 
 ## Data Frame
 
-Convert to Data Frame as follows,
+Convert to spark Data Frame as follows
 
 ```{r}
-hail_dataframe(mt)
+df <- hail_dataframe(mt)
+df
+```
+
+## Data Frame manipulation
+
+Now that we convert a matrix table in a spark dataframe, we can manipulate our data using `select`, `filter`, `group_by` and so on.
+
+```{r}
+library(dplyr)
+
+df %>% 
+  sdf_separate_column("alleles") %>% 
+  filter(alleles_1 %in% c("G", "T")) %>% 
+  select(locus, alleles_1, alleles_2, qual, entries)
+```
+
+You can access nested data using the `sparklyr.nested` package.
+
+```{r}
+library(sparklyr.nested)
+
+df %>% 
+  sdf_select(locus,alleles, DP = info.DP)
+
 ```
 
 ## Cleanup
