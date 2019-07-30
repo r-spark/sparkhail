@@ -6,6 +6,10 @@ output:
     fig_height: 5
 ---
 
+[Hail](https://hail.is/) is an open-source, general-purpose, Python-based data analysis tool with additional data types and methods for working with genomic data. Hail is built to scale and has first-class support for multi-dimensional structured data, like the genomic data in a genome-wide association study (GWAS). Hail is exposed as a Python library, using primitives for distributed queries and linear algebra implemented in Scala, Spark, and increasingly C++.
+
+The `sparkhail` is a R extension using [sparklyr](https://spark.rstudio.com/) package. The idea is to help R users to use Hail functionalities with the well know [tidyverse](https://www.tidyverse.org/) sintax. In this README we are going to reproduce the [GWAS tutorial](https://hail.is/docs/0.2/tutorials/01-genome-wide-association-study.html) using `sparkhail`, `sparklyr`, `dplyr` and `ggplot2`.     
+
 ## Installation
 
 ```{r eval=FALSE}
@@ -14,6 +18,8 @@ devtools::install_github("samuelmacedo83/sparkhail")
 ```
 
 ## Read a matrix table
+
+The data in Hail is naturally represented as a Hail [MatrixTable](https://hail.is/docs/0.2/hail.MatrixTable.html#hail.MatrixTable). The `sparkhail` converts the MatrixTable to dataframe, in this way is easier to manipulate the data using `dplyr`. 
 
 ```{r read_matrix}
 library(sparkhail)
@@ -25,45 +31,125 @@ hl <- hail_context(sc)
 mt <- hail_read_matrix(hl, system.file("data/1kg.mt", package = "sparkhail"))
 ```
 
-## Describe
-
-You can take the information about the matrix table separately using `mt_globals_fields()`, `mt_col_fields()`, `mt_row_fields()`, `mt_entry_fields()`, `mt_col_key()` and `mt_row_key()`.
-Or you can use `describe()`. 
-
-```{r}
-hail_describe(mt)
-```
-
-## Data Frame
-
 Convert to spark Data Frame as follows
 
 ```{r}
 df <- hail_dataframe(mt)
-df
 ```
 
-## Data Frame manipulation
+## Getting to know our data
 
-Now that we convert a matrix table in a spark dataframe, we can manipulate our data using `select`, `filter`, `group_by` and so on.
-
-```{r message=FALSE}
-library(dplyr)
-
-df %>% 
-  sdf_separate_column("alleles") %>% 
-  filter(alleles_1 %in% c("G", "T")) %>% 
-  select(locus, alleles_1, alleles_2, qual, entries)
-```
-
-You can access nested data using the `sparklyr.nested` package.
+You can see the data structure using `dplyr::glimpse()`.
 
 ```{r}
-library(sparklyr.nested)
+library(dplyr)
+glimpse(df)
+```
+
+It’s important to have easy ways to slice, dice, query, and summarize a dataset. The conversion to dataframe is a good way to use `dplyr` verbs. Let's see some examples.
+
+```{r select_row}
+df %>% 
+  dplyr::select(locus, alleles) %>% 
+  head(5)
+```
+
+Here is how to peek at the first few sample IDs:
+
+```{r get_s}
+s <- get_s(mt)
+s
+```
+
+The genotype calls are in `entries` column and we can see it using `entries()` function. 
+```{r}
+entries(df)
+```
+
+## Adding column fields
+
+A Hail MatrixTable can have any number of row fields and column fields for storing data associated with each row and column. Annotations are usually a critical part of any genetic study. Column fields are where you’ll store information about sample phenotypes, ancestry, sex, and covariates. Row fields can be used to store information like gene membership and functional impact for use in QC or analysis.
+
+The file provided contains the sample ID, the population and “super-population” designations, the sample sex, and two simulated phenotypes (one binary, one discrete).
+
+This file is a standard text file and can be imported using `sparklyr`.
+
+```{r read_annotations}
+annotations <- spark_read_csv(sc, "table", 
+                              path = "inst/1kg_annotations.txt", 
+                              overwrite = TRUE, 
+                              delimiter = "\t")
+```
+
+A good way to peek at the structure of a Table is to look at its schema.
+```{r annotations_schema}
+glimpse(annotations)
+```
+
+Now we’ll use this table to add sample annotations to our dataset. To merge these data we can use joins. 
+
+```{r annotations_sample}
+annotations_sample <- inner_join(s, annotations, by = c("s" = "Sample"))
+```
+
+## Query functions
+
+We will start by looking at some statistics of the information in our data. We can aggregate using `group_by()` and count the number of occurrences using `tally()`. 
+
+```{r}
+annotations %>%
+  group_by(SuperPopulation) %>%
+  tally()
+```
+
+We can use `sdf_describe()` to see the summary statistics of the data. 
+
+```{r}
+sdf_describe(annotations)
+```
+
+However, these metrics aren’t perfectly representative of the samples in our dataset. Here’s why:
+
+```{r}
+sdf_nrow(annotations)
+sdf_nrow(annotations_sample)
+```
+
+Since there are fewer samples in our dataset than in the full thousand genomes cohort, we need to look at sample annotations on the dataset. 
+
+```{r}
+annotations_sample %>%
+  group_by(SuperPopulation) %>%
+  tally()
+
+sdf_describe(annotations)
+```
+
+Let's see another example, now we are going to calculate the counts of each of the 12 possible unique SNPs (4 choices for the reference base * 3 choices for the alternate base). To do this, we need to get the alternate allele of each variant and then count the occurences of each unique ref/alt pair. The alleles column is nested, because of this, we need to separete this column using `sdf_separate_column()`.
+
+```{r alleles_count}
+df %>% 
+  sdf_separate_column("alleles") %>% 
+  group_by(alleles_1, alleles_2) %>% 
+  tally() %>% 
+  arrange(-n)
+```
+
+It’s nice to see that we can actually uncover something biological from this small dataset: we see that these frequencies come in pairs. C/T and G/A are actually the same mutation, just viewed from from opposite strands. Likewise, T/A and A/T are the same mutation on opposite strands. There’s a 30x difference between the frequency of C/T and A/T SNPs. Why?
+
+The last example, what about genotypes? Hail can query the collection of all genotypes in the dataset, and this is getting large even for our tiny dataset. Our 284 samples and 10,000 variants produce 10 million unique genotypes. Let's plot this using the `ggplot2` package.
+
+```{r dp_plot}
+library(ggplot2)
+library(sparklyr.nested) # to access DP nested in info column
 
 df %>% 
-  sdf_select(locus,alleles, DP = info.DP)
-
+  sdf_select(DP = info.DP) %>% 
+  collect() %>% 
+  ggplot() +
+  aes(x = DP) +
+  geom_histogram(col=I("black")) + 
+  labs(title="Histogram for DP", y="Frequency")
 ```
 
 ## Cleanup
