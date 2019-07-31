@@ -1,5 +1,5 @@
 #' @export
-entries <- function(df){
+hail_entries <- function(df){
   df %>% 
     sparklyr.nested::sdf_select(call = entries.Call,
                                 ad = entries.AD,
