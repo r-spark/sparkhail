@@ -53,20 +53,6 @@ You can see the data structure using `dplyr::glimpse()`.
 
 ``` r
 library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 glimpse(df)
 ```
 
@@ -103,7 +89,7 @@ df %>%
 Here is how to peek at the first few sample IDs:
 
 ``` r
-s <- get_s(mt)
+s <- hail_ids(mt)
 s
 ```
 
@@ -123,10 +109,11 @@ s
     ## # … with more rows
 
 The genotype calls are in `entries` column and we can see it using
-`entries()` function.
+`hail_entries()` function. This [function]() selects and explodes the
+data frame using `sparklyr.nested`.
 
 ``` r
-entries(df)
+hail_entries(df)
 ```
 
     ## # Source: spark<?> [?? x 5]
@@ -327,11 +314,6 @@ df %>%
   geom_histogram(col=I("black")) + 
   labs(title="Histogram for DP", y="Frequency")
 ```
-
-    ## Warning in sdf_select(., DP = info.DP): Variable name conflict detected,
-    ## using disambuigated names for all nested fields
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](README_files/figure-gfm/dp_plot-1.png)<!-- -->
 

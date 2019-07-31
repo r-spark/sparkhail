@@ -41,7 +41,7 @@ df <- hail_dataframe(mt)
 
 You can see the data structure using `dplyr::glimpse()`.
 
-```{r}
+```{r message=FALSE}
 library(dplyr)
 glimpse(df)
 ```
@@ -57,13 +57,13 @@ df %>%
 Here is how to peek at the first few sample IDs:
 
 ```{r get_s}
-s <- get_s(mt)
+s <- hail_ids(mt)
 s
 ```
 
-The genotype calls are in `entries` column and we can see it using `entries()` function. 
+The genotype calls are in `entries` column and we can see it using `hail_entries()` function. This [function]() selects and explodes the data frame using `sparklyr.nested`.
 ```{r}
-entries(df)
+hail_entries(df)
 ```
 
 ## Adding column fields
@@ -139,7 +139,7 @@ It’s nice to see that we can actually uncover something biological from this s
 
 The last example, what about genotypes? Hail can query the collection of all genotypes in the dataset, and this is getting large even for our tiny dataset. Our 284 samples and 10,000 variants produce 10 million unique genotypes. Let's plot this using the `ggplot2` package.
 
-```{r dp_plot}
+```{r dp_plot, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(sparklyr.nested) # to access DP nested in info column
 
