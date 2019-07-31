@@ -1,5 +1,5 @@
 #' @export
-get_s <- function(mt){
+hail_ids <- function(mt){
   
   s <- mt %>%
     invoke("colKeys") %>% 
