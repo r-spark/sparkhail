@@ -49,7 +49,7 @@ df <- hail_dataframe(mt)
 
 ## Getting to know our data
 
-You can see the data structure using `dplyr::glimpse()`.
+You can see the data structure using `glimpse()`.
 
 ``` r
 library(dplyr)
@@ -109,8 +109,9 @@ s
     ## # … with more rows
 
 The genotype calls are in `entries` column and we can see it using
-`hail_entries()` function. This [function]() selects and explodes the
-data frame using `sparklyr.nested`.
+`hail_entries()` function. This
+[function](https://github.com/samuelmacedo83/sparkhail/blob/master/R/hail_entries.R)
+selects and explodes the data frame using `sparklyr.nested`.
 
 ``` r
 hail_entries(df)
