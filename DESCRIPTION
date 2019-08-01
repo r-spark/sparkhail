@@ -2,15 +2,21 @@ Package: sparkhail
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Authors@R: c(
+    person("Samuel", "Macêdo", email = "samuelmacedo@recife.ifpe.edu.br", 
+           role = c("aut", "cre")),
+    person("Javier", "Luraschi", email = "javier@rstudio.com", role = "aut")
+    )
+Maintainer: Samuel Macêdo <samuelmacedo@recife.ifpe.edu.br>
 Description: More about what it does (maybe more than one line)
   Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: Apache License 2.0 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
   R (>= 3.1.2)
 Imports:
-  sparklyr
+  sparklyr (>= 1.0.1),
+  sparklyr.nested
 RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
