@@ -12,9 +12,18 @@ The `sparkhail` is a R extension using [sparklyr](https://spark.rstudio.com/) pa
 
 ## Installation
 
+To upgrade to the latest version of sparkhail, run the following command and restart your R session:
+
 ```{r eval=FALSE}
 install.packages("devtools")
 devtools::install_github("samuelmacedo83/sparkhail")
+```
+
+You can install Hail manually or using `hail_install()`.
+
+```{r}
+library(sparkhail)
+hail_install()
 ```
 
 ## Read a matrix table
@@ -22,7 +31,6 @@ devtools::install_github("samuelmacedo83/sparkhail")
 The data in Hail is naturally represented as a Hail [MatrixTable](https://hail.is/docs/0.2/hail.MatrixTable.html#hail.MatrixTable). The `sparkhail` converts the MatrixTable to dataframe, in this way is easier to manipulate the data using `dplyr`. 
 
 ```{r read_matrix}
-library(sparkhail)
 library(sparklyr)
 
 sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
