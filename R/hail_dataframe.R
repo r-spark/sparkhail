@@ -1,3 +1,21 @@
+#' Create a dataframe
+#'
+#' This function converts a hail matrixtable in a dataframe.
+#' 
+#' @param x a hail matrixtable
+#'
+#' @examples 
+#' \dontrun{
+#' library(sparklyr)
+#'
+#' sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
+#'
+#' hl <- hail_context(sc)
+#' mt <- hail_read_matrix(hl, system.file("extdata/1kg.mt", package = "sparkhail"))
+#' 
+#' df <- hail_dataframe(mt)
+#' df
+#' }
 #' @export
 hail_dataframe <- function(x){
   UseMethod("hail_dataframe")
