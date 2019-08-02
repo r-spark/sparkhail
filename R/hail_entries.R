@@ -1,4 +1,4 @@
-#' Retrieve entries field
+#' Get Entries Field
 #'
 #' This function retrieves the entries fields from a hail dataframe and explodes the
 #' columns call, dp and gq.
@@ -18,7 +18,7 @@
 #'   hail_dataframe() %>% 
 #'   hail_entries()
 #' }
-#'
+#' 
 #' @export
 hail_entries <- function(df){
   df %>% 
