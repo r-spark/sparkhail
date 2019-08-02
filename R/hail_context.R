@@ -1,4 +1,4 @@
-#' Create hail context
+#' Create Hail Context
 #' 
 #' Import and initialize Hail using a spark connection.
 #'
