@@ -2,16 +2,50 @@
 % Please edit documentation in R/hail_describe.R
 \name{hail_describe}
 \alias{hail_describe}
-\title{Describe a matrixTable object}
+\alias{mt_globals_fields}
+\alias{mt_str_rows}
+\alias{mt_row_fields}
+\alias{mt_col_fields}
+\alias{mt_entry_fields}
+\alias{mt_row_key}
+\alias{mt_col_key}
+\title{Describe a MatrixTable}
 \usage{
-hail_describe(jobj)
+hail_describe(mt)
+
+mt_globals_fields(mt)
+
+mt_str_rows(mt)
+
+mt_row_fields(mt)
+
+mt_col_fields(mt)
+
+mt_entry_fields(mt)
+
+mt_row_key(mt)
+
+mt_col_key(mt)
 }
 \arguments{
-\item{jobj}{}
+\item{mt}{A MatrixTable object.}
 }
 \description{
-Describe a matrixTable object
+\code{hail_describe} prints a hail MatrixTable structure. You can access parts of
+the structure using \code{mt_globals_fields}, \code{mt_str_rows}, \code{mt_col_fields},
+\code{mt_entry_fields}, \code{mt_row_key}, \code{mt_col_key}.
 }
 \examples{
+\dontrun{
+library(sparklyr)
+
+sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
+
+hl <- hail_context(sc)
+mt <- hail_read_matrix(hl, system.file("extdata/1kg.mt", package = "sparkhail"))
+
+hail_describe(mt)
+
+}
 
 }
