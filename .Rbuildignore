@@ -6,3 +6,5 @@
 ^derby\.log$
 ^logs$
 ^hail\.log$
+^inst/extdata$
+^inst/java/hail-all-spark\.jar$
