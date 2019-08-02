@@ -16,6 +16,7 @@ LazyData: true
 Depends:
   R (>= 3.1.2)
 Imports:
+  dplyr,
   sparklyr (>= 1.0.1),
   sparklyr.nested,
   utils
