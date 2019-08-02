@@ -1,4 +1,4 @@
-#' Create a dataframe
+#' Create a Dataframe
 #'
 #' This function converts a hail matrixtable in a dataframe.
 #' 
@@ -21,11 +21,11 @@ hail_dataframe <- function(x){
   UseMethod("hail_dataframe")
 }
 
-#' @importFrom sparklyr invoke invoke_static
+#' @importFrom sparklyr invoke invoke_static %>% 
 #' @export
-hail_dataframe.hail_matrix_table <- function(mt){
-  sc <- sparklyr::spark_connection(mt)
-  rdd <- mt %>%
+hail_dataframe.hail_matrix_table <- function(x){
+  sc <- sparklyr::spark_connection(x)
+  rdd <- x %>%
     invoke("rvd") %>%
     invoke("toRows") %>%
     invoke_static(sc, "sparkhail.HailConverter", "mtToRdd", .)
