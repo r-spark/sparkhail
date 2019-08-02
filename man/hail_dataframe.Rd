@@ -2,7 +2,7 @@
 % Please edit documentation in R/hail_dataframe.R
 \name{hail_dataframe}
 \alias{hail_dataframe}
-\title{Create a dataframe}
+\title{Create a Dataframe}
 \usage{
 hail_dataframe(x)
 }

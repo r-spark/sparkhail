@@ -2,7 +2,7 @@
 % Please edit documentation in R/hail_entries.R
 \name{hail_entries}
 \alias{hail_entries}
-\title{Retrieve entries field}
+\title{Get Entries Field}
 \usage{
 hail_entries(df)
 }

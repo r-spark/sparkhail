@@ -2,7 +2,7 @@
 % Please edit documentation in R/hail_context.R
 \name{hail_context}
 \alias{hail_context}
-\title{Create hail context}
+\title{Create Hail Context}
 \usage{
 hail_context(sc)
 }
