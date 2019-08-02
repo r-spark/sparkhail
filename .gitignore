@@ -5,3 +5,7 @@
 derby.log
 logs/
 hail.log
+# hail jars
+inst/java/hail-all-spark.jar
+# hail datasets
+inst/extdata
