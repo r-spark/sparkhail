@@ -38,7 +38,7 @@ library(sparklyr)
 sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
 
 hl <- hail_context(sc)
-mt <- hail_read_matrix(hl, system.file("data/1kg.mt", package = "sparkhail"))
+mt <- hail_read_matrix(hl, system.file("extdata/1kg.mt", package = "sparkhail"))
 ```
 
 Convert to spark Data Frame as follows
@@ -149,7 +149,8 @@ This file is a standard text file and can be imported using `sparklyr`.
 
 ``` r
 annotations <- spark_read_csv(sc, "table", 
-                              path = "inst/1kg_annotations.txt", 
+                              path = system.file("extdata/1kg_annotations.txt",
+                                                 package = "sparkhail"),
                               overwrite = TRUE, 
                               delimiter = "\t")
 ```
