@@ -1,7 +1,7 @@
 Package: sparkhail
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: c(
     person("Samuel", "Macêdo", email = "samuelmacedo@recife.ifpe.edu.br", 
            role = c("aut", "cre")),
