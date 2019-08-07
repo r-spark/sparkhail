@@ -1,4 +1,7 @@
 spark_dependencies <- function(spark_version, scala_version, ...) {
+  hail_exists <- system.file("java/hail-all-spark.jar", package = "sparkhail")
+  if (hail_exists == "") hail_install()
+  
   sparklyr::spark_dependency(
     jars = c(
       system.file(

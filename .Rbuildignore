@@ -1,2 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^README\.Rmd$
+^README_files$
+^README_images$
+^derby\.log$
+^logs$
+^hail\.log$
+^inst/extdata$
+^inst/java/hail-all-spark\.jar$

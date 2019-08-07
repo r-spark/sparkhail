@@ -1,3 +1,21 @@
+#' Get Sample Ids 
+#' 
+#' Get the ids from s col key in a MatrixTable.
+#' 
+#' @param mt A MatrixTable object.
+#'
+#' @examples 
+#' \dontrun{
+#' library(sparklyr)
+#'
+#" sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
+#'
+#' hl <- hail_context(sc)
+#' mt <- hail_read_matrix(hl, system.file("extdata/1kg.mt", package = "sparkhail"))
+#' 
+#' hail_ids(mt)
+#' }
+#'
 #' @export
 hail_ids <- function(mt){
   

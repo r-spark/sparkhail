@@ -19,9 +19,19 @@ using `sparkhail`, `sparklyr`, `dplyr` and `ggplot2`.
 
 ## Installation
 
+To upgrade to the latest version of sparkhail, run the following command
+and restart your R session:
+
 ``` r
 install.packages("devtools")
 devtools::install_github("samuelmacedo83/sparkhail")
+```
+
+You can install Hail manually or using `hail_install()`.
+
+``` r
+library(sparkhail)
+hail_install()
 ```
 
 ## Read a matrix table
@@ -32,13 +42,12 @@ The `sparkhail` converts the MatrixTable to dataframe, in this way is
 easier to manipulate the data using `dplyr`.
 
 ``` r
-library(sparkhail)
 library(sparklyr)
 
 sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
 
 hl <- hail_context(sc)
-mt <- hail_read_matrix(hl, system.file("data/1kg.mt", package = "sparkhail"))
+mt <- hail_read_matrix(hl, system.file("extdata/1kg.mt", package = "sparkhail"))
 ```
 
 Convert to spark Data Frame as follows
@@ -149,7 +158,8 @@ This file is a standard text file and can be imported using `sparklyr`.
 
 ``` r
 annotations <- spark_read_csv(sc, "table", 
-                              path = "inst/1kg_annotations.txt", 
+                              path = system.file("extdata/1kg_annotations.txt",
+                                                 package = "sparkhail"),
                               overwrite = TRUE, 
                               delimiter = "\t")
 ```
