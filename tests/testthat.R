@@ -7,7 +7,7 @@ library(sparklyr)
 if (identical(Sys.getenv("NOT_CRAN"), "true")) {
   spark_ver <- Sys.getenv("SPARK_VERSION")
   if(spark_ver != "") sparklyr::spark_install(version = spark_ver)
-  if(hail_exists() == "") hail_install()
+  if(sparkhail:::hail_exists() == "") hail_install()
 }
 
 test_check("sparkhail")

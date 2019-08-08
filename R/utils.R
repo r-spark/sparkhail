@@ -1,12 +1,6 @@
-# get_methods <- function(jobj){
-#   invoke(jobj, "getClass") %>% 
-#     invoke("getMethods") 
-#   
-#   a2 <- lapply(a, function(e) {
-#     invoke(e, "toString") 
-#   })
-#   
-# }
+hail_exists <- function(){
+  system.file("java/hail-all-spark.jar", package = "sparkhail")
+}
 
 mt_cols <- function(jobj){
   sparklyr::invoke(jobj, "countCols")
