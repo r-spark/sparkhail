@@ -10,4 +10,8 @@ test_that("hail_install", {
   sc <- sparklyr::spark_connect(master = "local", config = hail_config())
 
   expect_false(hail_exists() == "")
+  
+  a <- system.file("extdata/1kg.mt", package = "sparkhail")
+  
+  expect_false(a == "")
 })
