@@ -11,6 +11,7 @@ This function creates an extdata folder and downloads the datasets necessary to
 run the examples: 1kg MatrixTable folder and annotations.txt.
 }
 \examples{
+\dontrun{
 hail_get_1kg()
-
+}
 }
