@@ -5,6 +5,8 @@ import org.apache.spark.rdd._
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.types._
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 
 object CreateOption {
   def stringNone() : Option[String] = None
