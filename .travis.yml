@@ -1,9 +1,8 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-dist: xenial
+dist: trusty
 cache: packages
-sudo: false
 
 cache:
   packages: true
@@ -14,8 +13,8 @@ jdk:
   - oraclejdk8
 
 before_install:
-    - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  
+  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
 matrix:
   include:
     - name: "Spark 2.2.1 (R oldrel, oraclejdk8)"
@@ -24,14 +23,11 @@ matrix:
       env:
         - SPARK_VERSION="2.2.1"
         - JAVA_VERSION=openjdk8
-        global:
-          - JAVA_HOME=/usr/lib/jvm/java-8-oracle
     - name: "Spark 2.3.2 (R release, oraclejdk8)"
       r: release
       group: edge
       jdk: oraclejdk8
       env:
-        - JAVA_HOME=/usr/lib/jvm/java-8-oracle
         - SPARK_VERSION="2.3.2"
         - JAVA_VERSION=oraclejdk8
     - name: "Spark 2.4.0 (R release, oraclejdk8)"
@@ -41,5 +37,3 @@ matrix:
         - JAVA_HOME=/usr/lib/jvm/java-8-oracle
         - SPARK_VERSION="2.4.0"
         - JAVA_VERSION=oraclejdk8
-        - CODE_COVERAGE="true"
-        
