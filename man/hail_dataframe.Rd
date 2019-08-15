@@ -7,7 +7,7 @@
 hail_dataframe(x)
 }
 \arguments{
-\item{x}{a hail matrixtable}
+\item{x}{a hail MatrixTable}
 }
 \description{
 This function converts a hail MatrixTable in a dataframe.
