@@ -10,10 +10,8 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
       ),
       system.file(
         sprintf("java/hail-all-spark.jar"),
-        package = "sparkhail"
+         package = "sparkhail"
       )
-    ),
-    packages = c(
     )
   )
 }
