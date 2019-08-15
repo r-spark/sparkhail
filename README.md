@@ -24,7 +24,7 @@ and restart your R session:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("samuelmacedo83/sparkhail")
+devtools::install_github("r-spark/sparkhail")
 ```
 
 You can install Hail manually or using `hail_install()`.
@@ -33,6 +33,8 @@ You can install Hail manually or using `hail_install()`.
 library(sparkhail)
 hail_install()
 ```
+
+    ## Hail is already installed.
 
 ## Read a matrix table
 
@@ -85,6 +87,13 @@ df %>%
   dplyr::select(locus, alleles) %>% 
   head(5)
 ```
+
+    ## Warning: `overscope_eval_next()` is deprecated as of rlang 0.2.0.
+    ## Please use `eval_tidy()` with a data mask instead.
+    ## This warning is displayed once per session.
+
+    ## Warning: `overscope_clean()` is deprecated as of rlang 0.2.0.
+    ## This warning is displayed once per session.
 
     ## # Source: spark<?> [?? x 2]
     ##   locus     alleles   
@@ -186,6 +195,9 @@ merge these data we can use joins.
 ``` r
 annotations_sample <- inner_join(s, annotations, by = c("s" = "Sample"))
 ```
+
+    ## Warning: `chr_along()` is deprecated as of rlang 0.2.0.
+    ## This warning is displayed once per session.
 
 ## Query functions
 
@@ -311,19 +323,18 @@ SNPs. Why?
 The last example, what about genotypes? Hail can query the collection of
 all genotypes in the dataset, and this is getting large even for our
 tiny dataset. Our 284 samples and 10,000 variants produce 10 million
-unique genotypes. Let’s plot this using the `ggplot2` package.
+unique genotypes. Let’s plot this using the `ggplot2` and `dbplot`
+package.
 
 ``` r
+library(dbplot)
 library(ggplot2)
 library(sparklyr.nested) # to access DP nested in info column
 
 df %>% 
   sdf_select(DP = info.DP) %>% 
-  collect() %>% 
-  ggplot() +
-  aes(x = DP) +
-  geom_histogram(col=I("black")) + 
-  labs(title="Histogram for DP", y="Frequency")
+  dbplot_histogram(DP) +
+  labs(title = "Histogram for DP", y = "Frequency")
 ```
 
 ![](README_files/figure-gfm/dp_plot-1.png)<!-- -->
@@ -335,5 +346,3 @@ Then disconenct from Spark and Hail,
 ``` r
 spark_disconnect(sc)
 ```
-
-    ## NULL
