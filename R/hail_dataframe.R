@@ -2,7 +2,7 @@
 #'
 #' This function converts a hail MatrixTable in a dataframe.
 #' 
-#' @param x a hail matrixtable
+#' @param x a hail MatrixTable
 #'
 #' @examples 
 #' \dontrun{
