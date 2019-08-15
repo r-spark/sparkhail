@@ -9,3 +9,4 @@
 ^inst/extdata$
 ^inst/java/hail-all-spark\.jar$
 ^\.travis\.yml$
+^cran-comments\.md$
