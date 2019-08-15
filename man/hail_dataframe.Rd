@@ -10,7 +10,7 @@ hail_dataframe(x)
 \item{x}{a hail matrixtable}
 }
 \description{
-This function converts a hail matrixtable in a dataframe.
+This function converts a hail MatrixTable in a dataframe.
 }
 \examples{
 \dontrun{
