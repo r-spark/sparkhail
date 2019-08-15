@@ -1,6 +1,6 @@
 #' Create a Dataframe
 #'
-#' This function converts a hail matrixtable in a dataframe.
+#' This function converts a hail MatrixTable in a dataframe.
 #' 
 #' @param x a hail matrixtable
 #'
