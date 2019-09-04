@@ -6,11 +6,6 @@
 #' @param datasets_examples If TRUE, hail will be downloaded along with the datasets to
 #' run the examples. Use FALSE if you just want to install hail.
 #' 
-#' @examples 
-#' \dontrun{
-#'  hail_install()
-#'  hail_uninstall()
-#' }
 #' @name hail_install
 NULL
 

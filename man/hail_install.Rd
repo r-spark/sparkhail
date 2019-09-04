@@ -17,9 +17,3 @@ run the examples. Use FALSE if you just want to install hail.}
 Install hail dependencies and datasets to run the examples in documentation.
 To remove hail use \code{hail_uninstall}.
 }
-\examples{
-\dontrun{
- hail_install()
- hail_uninstall()
-}
-}
