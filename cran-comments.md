@@ -1,6 +1,7 @@
 ## Test environments
 * local OS X install, R 3.6.1
 * ubuntu Xenial 16.04  (on travis-ci), R 3.6.1
+* win-builder (devel and release)
 
 ## Softwares used
 
@@ -13,7 +14,11 @@ There were no ERRORs or WARNINGs.
 
 ## Notes on rhub
 
-Possibly mis-spelled words in DESCRIPTION:
+ * The examples in documentation use dontrun because I use spark and hail, but there is
+ a runnable example in spark_context.R
+ * The LICENSE is needed because the use of apache spark
+
+*Possibly mis-spelled words in DESCRIPTION:
   hail (https://hail.is/)
   python (https://www.python.org/)
   GWAS (genome-wide association study)
