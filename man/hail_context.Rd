@@ -9,13 +9,15 @@ hail_context(sc)
 \arguments{
 \item{sc}{Spark connection.}
 }
+\value{
+hailContext
+}
 \description{
 Import and initialize Hail using a spark connection.
 }
 \examples{
 library(sparklyr)
 
-# sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
 sc <- spark_connect(master = "spark://HOST:PORT", config = hail_config())
 connection_is_open(sc)
 hail_context(sc)

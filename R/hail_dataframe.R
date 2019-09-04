@@ -4,6 +4,7 @@
 #' 
 #' @param x a hail MatrixTable
 #'
+#' @return A spark dataframe
 #' @examples 
 #' \dontrun{
 #' library(sparklyr)

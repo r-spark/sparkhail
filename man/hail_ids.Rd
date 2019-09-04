@@ -9,6 +9,9 @@ hail_ids(mt)
 \arguments{
 \item{mt}{A MatrixTable object.}
 }
+\value{
+A spark dataframe
+}
 \description{
 Get the ids from s col key in a MatrixTable.
 }

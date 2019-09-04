@@ -4,6 +4,7 @@
 #'
 #' @param sc Spark connection.
 #' 
+#' @return hailContext
 #' @examples 
 #' library(sparklyr)
 #'

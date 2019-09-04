@@ -9,6 +9,9 @@ hail_dataframe(x)
 \arguments{
 \item{x}{a hail MatrixTable}
 }
+\value{
+A spark dataframe
+}
 \description{
 This function converts a hail MatrixTable in a dataframe.
 }
