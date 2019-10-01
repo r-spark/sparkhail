@@ -17,6 +17,8 @@ There were no ERRORs or WARNINGs.
  * The examples in documentation use dontrun because I use spark and hail, but there is
  a runnable example in spark_context.R
  * The LICENSE is needed because the use of apache spark
+ * The function hail_get_1kg was improved. Now the user can choose the path and the data is not saved in home directory.
+ 
 
 *Possibly mis-spelled words in DESCRIPTION:
   hail (https://hail.is/)
