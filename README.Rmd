@@ -21,9 +21,8 @@ devtools::install_github("r-spark/sparkhail")
 
 You can install Hail manually or using `hail_install()`.
 
-```{r}
-library(sparkhail)
-hail_install()
+```{r eval=FALSE}
+sparkhail::hail_install()
 ```
 
 ## Read a matrix table
@@ -31,6 +30,7 @@ hail_install()
 The data in Hail is naturally represented as a Hail [MatrixTable](https://hail.is/docs/0.2/hail.MatrixTable.html#hail.MatrixTable). The `sparkhail` converts the MatrixTable to dataframe, in this way is easier to manipulate the data using `dplyr`. 
 
 ```{r read_matrix}
+library(sparkhail)
 library(sparklyr)
 
 sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
