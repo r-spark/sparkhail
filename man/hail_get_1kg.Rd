@@ -4,14 +4,13 @@
 \alias{hail_get_1kg}
 \title{Download the Dataset Examples}
 \usage{
-hail_get_1kg()
+hail_get_1kg(path = NULL)
+}
+\arguments{
+\item{path}{The folder that the user wants to download the data. The path is NULL
+the data will be downloaded in a temp folder.}
 }
 \description{
 This function creates an extdata folder and downloads the datasets necessary to
 run the examples: 1kg MatrixTable folder and annotations.txt.
-}
-\examples{
-\dontrun{
-hail_get_1kg()
-}
 }

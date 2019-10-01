@@ -2,24 +2,21 @@
 #' 
 #' This function creates an extdata folder and downloads the datasets necessary to 
 #' run the examples: 1kg MatrixTable folder and annotations.txt.
+#' @param path The folder that the user wants to download the data. The path is NULL
+#' the data will be downloaded in a temp folder. 
 #' 
-#' @examples 
-#' \dontrun{
-#' hail_get_1kg()
-#' }
 #' @export
-hail_get_1kg <- function(){
-  extdata_exists <- system.file("extdata/1kg.mt", package = "sparkhail")
-  if (extdata_exists == ""){
-    extdata_dir <- paste0(system.file(package = "sparkhail") ,"/extdata")
-    dir.create(extdata_dir)
-    extdata_url <- "https://raw.githubusercontent.com/r-spark/sparkhail/hail-all-spark-0.1.1/inst/extdata/1kg.zip"
-    utils::download.file(extdata_url, 
-                         destfile = paste0(extdata_dir, "/1kg.zip"),
-                         method = "wget",
-                         quiet = TRUE)
-    
-    utils::unzip(paste0(extdata_dir, "/1kg.zip"), exdir = extdata_dir)
-    unlink(paste0(extdata_dir, "/1kg.zip"), recursive = TRUE)
+hail_get_1kg <- function(path = NULL){
+  if(is.null(path)) {
+    path <- tempdir()
   }
-} 
+  
+  extdata_url <- "https://raw.githubusercontent.com/r-spark/sparkhail/hail-all-spark-0.1.1/inst/extdata/1kg.zip"
+  utils::download.file(extdata_url, 
+                       destfile = paste0(path, "/1kg.zip"),
+                       method = "wget",
+                       quiet = TRUE)
+    
+  utils::unzip(paste0(path, "/1kg.zip"), exdir = path)
+  unlink(paste0(path, "/1kg.zip"), recursive = TRUE)
+}
