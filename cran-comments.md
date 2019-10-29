@@ -18,6 +18,7 @@ There were no ERRORs or WARNINGs.
  a runnable example in spark_context.R
  * The LICENSE is needed because the use of apache spark
  * The function hail_get_1kg was improved. Now the user can choose the path and the data is not saved in home directory.
+ * The function spark_hail was improved. Now the user can choose the path of the jars.
  
 
 *Possibly mis-spelled words in DESCRIPTION:
