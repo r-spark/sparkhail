@@ -19,6 +19,12 @@ using `sparkhail`, `sparklyr`, `dplyr` and `ggplot2`.
 
 ## Installation
 
+You can install the sparkhail package from CRAN as follows:
+
+``` r
+install.packages("sparkhail")
+```
+
 To upgrade to the latest version of sparkhail, run the following command
 and restart your R session:
 
@@ -85,13 +91,6 @@ df %>%
   dplyr::select(locus, alleles) %>% 
   head(5)
 ```
-
-    ## Warning: `overscope_eval_next()` is deprecated as of rlang 0.2.0.
-    ## Please use `eval_tidy()` with a data mask instead.
-    ## This warning is displayed once per session.
-
-    ## Warning: `overscope_clean()` is deprecated as of rlang 0.2.0.
-    ## This warning is displayed once per session.
 
     ## # Source: spark<?> [?? x 2]
     ##   locus     alleles   
@@ -193,9 +192,6 @@ merge these data we can use joins.
 ``` r
 annotations_sample <- inner_join(s, annotations, by = c("s" = "Sample"))
 ```
-
-    ## Warning: `chr_along()` is deprecated as of rlang 0.2.0.
-    ## This warning is displayed once per session.
 
 ## Query functions
 

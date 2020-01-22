@@ -12,6 +12,12 @@ The `sparkhail` is a R extension using [sparklyr](https://spark.rstudio.com/) pa
 
 ## Installation
 
+You can install the sparkhail package from CRAN as follows:
+
+```{r eval=FALSE}
+install.packages("sparkhail")
+```
+
 To upgrade to the latest version of sparkhail, run the following command and restart your R session:
 
 ```{r eval=FALSE}
