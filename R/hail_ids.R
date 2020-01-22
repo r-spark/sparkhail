@@ -4,6 +4,7 @@
 #' 
 #' @param mt A MatrixTable object.
 #'
+#' @return A spark dataframe
 #' @examples 
 #' \dontrun{
 #' library(sparklyr)

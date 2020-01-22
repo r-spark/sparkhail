@@ -4,14 +4,14 @@
 #'
 #' @param sc Spark connection.
 #' 
+#' @return hailContext
 #' @examples 
-#' \dontrun{
 #' library(sparklyr)
 #'
-#' sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
-#'
+#' sc <- spark_connect(master = "spark://HOST:PORT", config = hail_config())
+#' connection_is_open(sc)
 #' hail_context(sc)
-#' }
+#' spark_disconnect(sc)
 #'
 #' @export
 hail_context <- function(sc) {

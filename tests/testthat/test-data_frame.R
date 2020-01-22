@@ -2,7 +2,9 @@ context("test-data_frame")
 
 test_that("hail_data_frame", {
   skip_on_cran()
-
+  skip_if(hail_exists() == "")
+  skip_if(system.file("extdata/1kg.mt", package = "sparkhail") == "")
+  
   sc <- sparklyr::spark_connect(master = "local", config = hail_config())
 
   hl <- hail_context(sc)
@@ -20,6 +22,7 @@ test_that("hail_data_frame", {
 test_that("hail_entries", {
   skip_on_cran()
   skip_if(hail_exists() == "")
+  skip_if(system.file("extdata/1kg.mt", package = "sparkhail") == "")
   
   sc <- sparklyr::spark_connect(master = "local", config = hail_config())
   

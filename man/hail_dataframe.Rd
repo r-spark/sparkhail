@@ -7,10 +7,13 @@
 hail_dataframe(x)
 }
 \arguments{
-\item{x}{a hail matrixtable}
+\item{x}{a hail MatrixTable}
+}
+\value{
+A spark dataframe
 }
 \description{
-This function converts a hail matrixtable in a dataframe.
+This function converts a hail MatrixTable in a dataframe.
 }
 \examples{
 \dontrun{

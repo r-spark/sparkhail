@@ -19,19 +19,24 @@ using `sparkhail`, `sparklyr`, `dplyr` and `ggplot2`.
 
 ## Installation
 
+You can install the sparkhail package from CRAN as follows:
+
+``` r
+install.packages("sparkhail")
+```
+
 To upgrade to the latest version of sparkhail, run the following command
 and restart your R session:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("samuelmacedo83/sparkhail")
+devtools::install_github("r-spark/sparkhail")
 ```
 
 You can install Hail manually or using `hail_install()`.
 
 ``` r
-library(sparkhail)
-hail_install()
+sparkhail::hail_install()
 ```
 
 ## Read a matrix table
@@ -42,6 +47,7 @@ The `sparkhail` converts the MatrixTable to dataframe, in this way is
 easier to manipulate the data using `dplyr`.
 
 ``` r
+library(sparkhail)
 library(sparklyr)
 
 sc <- spark_connect(master = "local", version = "2.4", config = hail_config())
@@ -311,19 +317,18 @@ SNPs. Why?
 The last example, what about genotypes? Hail can query the collection of
 all genotypes in the dataset, and this is getting large even for our
 tiny dataset. Our 284 samples and 10,000 variants produce 10 million
-unique genotypes. Let’s plot this using the `ggplot2` package.
+unique genotypes. Let’s plot this using the `ggplot2` and `dbplot`
+package.
 
 ``` r
+library(dbplot)
 library(ggplot2)
 library(sparklyr.nested) # to access DP nested in info column
 
 df %>% 
   sdf_select(DP = info.DP) %>% 
-  collect() %>% 
-  ggplot() +
-  aes(x = DP) +
-  geom_histogram(col=I("black")) + 
-  labs(title="Histogram for DP", y="Frequency")
+  dbplot_histogram(DP) +
+  labs(title = "Histogram for DP", y = "Frequency")
 ```
 
 ![](README_files/figure-gfm/dp_plot-1.png)<!-- -->
@@ -335,5 +340,3 @@ Then disconenct from Spark and Hail,
 ``` r
 spark_disconnect(sc)
 ```
-
-    ## NULL

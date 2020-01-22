@@ -11,6 +11,9 @@ hail_read_matrix(hl, path)
 
 \item{path}{A string with the path to MatrixTable folder}
 }
+\value{
+hail_matrix_table
+}
 \description{
 Read and create a MatrixTable object, it is necessary to convert the data in
 dataframe using \code{\link[sparkhail]{hail_dataframe}}.

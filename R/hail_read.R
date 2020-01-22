@@ -22,7 +22,7 @@
 #' 
 #' @param hl A hail context object. Create one using \code{hail_context()}.
 #' @param path A string with the path to MatrixTable folder 
-#'
+#' @return hail_matrix_table
 #' @export
 hail_read_matrix <- function(hl, path){
   

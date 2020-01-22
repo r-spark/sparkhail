@@ -1,15 +1,25 @@
 Package: sparkhail
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0.9000
+Title: A 'Sparklyr' Extension for 'Hail'   
+Version: 0.1.1
 Authors@R: c(
     person("Samuel", "Macêdo", email = "samuelmacedo@recife.ifpe.edu.br", 
            role = c("aut", "cre")),
-    person("Javier", "Luraschi", email = "javier@rstudio.com", role = "aut")
+    person("Javier", "Luraschi", email = "javier@rstudio.com", 
+           role = "aut"),
+    person("Michael", "Lawrence", email = "michafla@gene.com", 
+           role = "ctb")
     )
 Maintainer: Samuel Macêdo <samuelmacedo@recife.ifpe.edu.br>
-Description: More about what it does (maybe more than one line)
-  Use four spaces when indenting paragraphs within the Description.
+Description: 'Hail' is an open-source, general-purpose, 'python' based data analysis
+    tool with additional data types and methods for working with genomic data, see
+    <https://hail.is/>. 'Hail' is built to scale and has first-class support for 
+    multi-dimensional structured data, like the genomic data in a genome-wide 
+    association study (GWAS). 'Hail' is exposed as a 'python' library, using primitives
+    for distributed queries and linear algebra implemented in 'scala', 'spark', and 
+    increasingly 'C++'. The 'sparkhail' is an R extension using 'sparklyr' package. 
+    The idea is to help R users to use 'hail' functionalities with the well-know
+    'tidyverse' syntax, see <https://www.tidyverse.org/>.
 License: Apache License 2.0 | file LICENSE
 Encoding: UTF-8
 LazyData: true

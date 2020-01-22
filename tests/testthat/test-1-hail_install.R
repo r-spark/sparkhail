@@ -7,11 +7,8 @@ test_that("hail_install", {
   expect_gt(nrow(sparklyr::spark_installed_versions()), 0)
   
   sparklyr::spark_disconnect_all()
-  sc <- sparklyr::spark_connect(master = "local", config = hail_config())
 
+  # test if hail was installed when using spark_conenct
+  sc <- sparklyr::spark_connect(master = "local", config = hail_config())
   expect_false(hail_exists() == "")
-  
-  a <- system.file("extdata/1kg.mt", package = "sparkhail")
-  
-  expect_false(a == "")
 })
