@@ -11,7 +11,7 @@ algebra implemented in Scala, Spark, and increasingly C++.
 
 The `sparkhail` is a R extension using
 [sparklyr](https://spark.rstudio.com/) package. The idea is to help R
-users to use Hail functionalities with the well know
+users to use Hail functionalities with the well known
 [tidyverse](https://www.tidyverse.org/) sintax. In this README we are
 going to reproduce the [GWAS
 tutorial](https://hail.is/docs/0.2/tutorials/01-genome-wide-association-study.html)
@@ -33,7 +33,7 @@ install.packages("devtools")
 devtools::install_github("r-spark/sparkhail")
 ```
 
-You can install Hail manually or using `hail_install()`.
+You can install Hail manually or by using `hail_install()`.
 
 ``` r
 sparkhail::hail_install()
